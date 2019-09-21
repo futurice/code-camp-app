@@ -31,10 +31,13 @@
             return {status: 1};
         },
         created() {
-            PythonShell.run('../drowsiness_detect.py', null, function (err) {
+            PythonShell.run('drowsiness_detect.py', null,  function (err, results) {
                 if (err) throw err;
+                console.log(results);
                 console.log('finished');
             });
+
+
         }
     };
 </script>

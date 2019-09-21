@@ -26,9 +26,7 @@ navigator.mediaDevices
           blob
             .arrayBuffer()
             .then(arrayBuffer =>
-              debug
-                ? console.log(arrayBuffer)
-                : fs
+                fs
                     .createWriteStream(`images/image_${i}.jpg`)
                     .write(Buffer.from(arrayBuffer))
             )
