@@ -3,8 +3,8 @@
         <div v-show="loading" class="splash">
             <SplashScreen />
         </div>
-        <div v-show="!loading" class="main">
-            <Webcam/>
+        <div v-show="!loading" class="main bounce">
+            <Webcam class="webcam"/>
             <div class="container">
                 <Indicator class="bounce"/>
             </div>
@@ -38,7 +38,7 @@
 </script>
 
 <style scoped>
-#app {
+.main {
   position: relative;
   display: flex;
   height: 100vh;
