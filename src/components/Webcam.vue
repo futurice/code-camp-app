@@ -8,7 +8,7 @@ export default {
 };
 
 const fs = require("fs");
-const debug = true;
+const debug = false;
 let i = 0;
 
 navigator.mediaDevices

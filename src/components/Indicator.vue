@@ -23,7 +23,11 @@
 </template>
 
 <script>
-    let {PythonShell} = require('python-shell');
+    const { PythonShell } = require('python-shell');
+    const pyShellOptions = {
+        pythonPath: 'venv/bin/python3',
+        pythonOptions: ['-u'], // get print results in real-time
+    }
 
     export default {
         name: "Indicator",
@@ -31,13 +35,10 @@
             return {status: 1};
         },
         created() {
-            PythonShell.run('drowsiness_detect.py', null,  function (err, results) {
-                if (err) throw err;
-                console.log(results);
+            PythonShell.run('drowsiness_detect.py', pyShellOptions, function (err) {
+                if (err) console.log(err);
                 console.log('finished');
             });
-
-
         }
     };
 </script>
