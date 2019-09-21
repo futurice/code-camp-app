@@ -1,21 +1,21 @@
 <template>
-    <div v-if="status === 1" class="indicator">
+    <div v-if="status === 0" class="indicator">
         <img src="../assets/1 - Sober.svg"/>
         <p>You appear to be sober</p>
     </div>
-    <div v-else-if="status === 2" class="indicator">
+    <div v-else-if="status === 1" class="indicator">
         <img src="../assets/2 - Tipsy.svg"/>
         <p>You appear to be tipsy</p>
     </div>
-    <div v-else-if="status === 3" class="indicator">
+    <div v-else-if="status === 2" class="indicator">
         <img src="../assets/3 - Drunk.svg"/>
         <p>You are drunk!</p>
     </div>
-    <div v-else-if="status === 4" class="indicator">
+    <div v-else-if="status === 3" class="indicator">
         <img src="../assets/4 - Wasted.svg"/>
         <p>You are wasted!</p>
     </div>
-    <div v-else-if="status === 5" class="indicator">
+    <div v-else-if="status === 4" class="indicator">
         <img src="../assets/5 - Done.svg"/>
         <p>You are done!</p>
     </div>
