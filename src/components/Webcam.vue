@@ -46,11 +46,3 @@ navigator.mediaDevices
     alert("could not connect stream");
   });
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-video {
-  width: 100vw;
-  height: 100vh;
-}
-</style>

@@ -38,18 +38,22 @@
 </script>
 
 <style scoped>
-    .main {
-        position: relative;
-    }
-
-    .container {
-        position: absolute;
-        height: 100%;
-        width: 100%;
-        bottom: 0;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: flex-end;
-    }
+#app {
+  position: relative;
+  display: flex;
+  height: 100vh;
+  align-items: center;
+}
+.container {
+  position: absolute;
+  width: 100%;
+  bottom: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+}
+.webcam {
+  width: 100%;
+}
 </style>
