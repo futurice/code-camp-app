@@ -11,13 +11,13 @@ import cv2
 import os
 
 #Minimum threshold of eye aspect ratio below which alarm is triggerd
-EYE_ASPECT_RATIO_THRESHOLDS = [(0.15, 'high_drowsiness'), (0.2, 'medium_drowsiness'), (0.3, 'some_drowsiness'), (0.4, 'low_drowsiness')]
+EYE_ASPECT_RATIO_THRESHOLDS = [(0.1, 'high_drowsiness'), (0.15, 'medium_drowsiness'), (0.2, 'some_drowsiness'), (0.25, 'low_drowsiness')]
 
 #Minimum consecutive frames for which eye ratio is below threshold for alarm to be triggered
-EYE_ASPECT_RATIO_REQUIRED_FRAMES = 4
+EYE_ASPECT_RATIO_REQUIRED_FRAMES = 3
 
 #How many images to analyze before returning not drowsy status
-NUM_OF_IMAGES_IN_ONE_ANALYSIS = 10
+NUM_OF_IMAGES_IN_ONE_ANALYSIS = 6
 
 #This function calculates and return eye aspect ratio
 def eye_aspect_ratio(eye):
@@ -77,7 +77,7 @@ def get_next_image(image_name):
             if (os.path.isfile(image_name)):
                 img = cv2.imread(image_name)
                 if img is None:
-                    time.sleep(0.1)
+                    continue
                 else:
                     return img
 
@@ -105,7 +105,7 @@ def fresh_analyzer_state():
 
 analyzer_state = fresh_analyzer_state()
 
-image_name_generator = ((seq, f"./images/image_{seq}.jpg") for seq in range(10000000000))
+image_name_generator = ((seq, "./images/image_" + str(seq) + ".jpg") for seq in range(10000000000))
 
 while True:
     try:

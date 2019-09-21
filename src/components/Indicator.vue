@@ -19,7 +19,7 @@
         <img src="../assets/5 - Done.svg"/>
         <p>You are done!</p>
     </div>
-    <p class="indicator" v-else>Unknown status</p>
+    <p class="indicator" v-else>Calibrating...</p>
 </template>
 
 <script>
@@ -35,7 +35,7 @@
     export default {
         name: "Indicator",
         data() {
-            return {status: 1};
+            return {status: -1};
         },
         created() {
             PythonShell.run('drowsiness_detect.py', pyShellOptions, function (err) {
@@ -43,7 +43,7 @@
                 console.log('finished');
             });
             let  watcher = chokidar.watch('images/result.txt', {persistent: true});
-            watcher.on('all', path => {
+            watcher.on('change', path => {
                 fs.readFile('images/result.txt','utf-8', (err, data) => {
                     if (err) throw err;
                     console.log(data);
