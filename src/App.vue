@@ -1,7 +1,9 @@
 <template>
   <div id="app">
     <Webcam />
-    <Indicator />
+    <div class="container">
+      <Indicator class="bounce" />
+    </div>
   </div>
 </template>
 
@@ -17,3 +19,19 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+#app {
+  position: relative;
+}
+.container {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+}
+</style>
