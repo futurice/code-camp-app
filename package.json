@@ -13,6 +13,7 @@
   },
   "main": "background.js",
   "dependencies": {
+    "chokidar": "^3.1.1",
     "core-js": "^2.6.5",
     "python-shell": "^1.0.8",
     "vue": "^2.6.10"

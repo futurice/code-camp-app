@@ -24,6 +24,9 @@
 
 <script>
     const { PythonShell } = require('python-shell');
+    const chokidar = require('chokidar');
+    const fs = require("fs");
+
     const pyShellOptions = {
         pythonPath: 'venv/bin/python3',
         pythonOptions: ['-u'], // get print results in real-time
@@ -39,6 +42,14 @@
                 if (err) console.log(err);
                 console.log('finished');
             });
+            let  watcher = chokidar.watch('images/result.txt', {persistent: true});
+            watcher.on('all', path => {
+                fs.readFile('images/result.txt','utf-8', (err, data) => {
+                    if (err) throw err;
+                    console.log(data);
+                    this.status = parseInt(data);
+                });
+            })
         }
     };
 </script>
