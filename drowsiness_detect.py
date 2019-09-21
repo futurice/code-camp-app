@@ -11,7 +11,7 @@ import cv2
 import os
 
 #Minimum threshold of eye aspect ratio below which alarm is triggerd
-EYE_ASPECT_RATIO_THRESHOLDS = [(0.1, 'high_drowsiness'), (0.15, 'medium_drowsiness'), (0.2, 'some_drowsiness'), (0.25, 'low_drowsiness')]
+EYE_ASPECT_RATIO_THRESHOLDS = [(0.2, 'high_drowsiness'), (0.25, 'medium_drowsiness'), (0.3, 'some_drowsiness'), (0.35, 'low_drowsiness')]
 
 #Minimum consecutive frames for which eye ratio is below threshold for alarm to be triggered
 EYE_ASPECT_RATIO_REQUIRED_FRAMES = 3
@@ -53,7 +53,7 @@ def analyze_picture(image):
             if (eye_aspect_ratio < threshold):
                 return level
 
-    return None
+    return 'no_drowsiness'
 
 def get_eye_aspect_ratio(gray, face):
     shape = predictor(gray, face)
@@ -85,7 +85,7 @@ def get_final_drowsiness_level(drowsiness_counts):
     l = lambda key: drowsiness_counts[key] >= EYE_ASPECT_RATIO_REQUIRED_FRAMES
     filtered = list(filter(l, drowsiness_counts.keys()))
     print(filtered)
-    return drowsiness_to_number(filtered[0]) if len(filtered) > 0 else 0
+    return drowsiness_to_number(filtered[0])
 
 def drowsiness_to_number(drowsiness):
     return {
@@ -93,6 +93,7 @@ def drowsiness_to_number(drowsiness):
         'medium_drowsiness': 3,
         'some_drowsiness': 2,
         'low_drowsiness': 1,
+        'no_drowsiness': 0
     }[drowsiness]
 
 def fresh_analyzer_state():
@@ -100,7 +101,8 @@ def fresh_analyzer_state():
             'high_drowsiness': 0,
             'medium_drowsiness': 0,
             'some_drowsiness': 0,
-            'low_drowsiness': 0
+            'low_drowsiness': 0,
+            'no_drowsiness': 0
         }
 
 analyzer_state = fresh_analyzer_state()
@@ -108,26 +110,19 @@ analyzer_state = fresh_analyzer_state()
 image_name_generator = ((seq, "./images/image_" + str(seq) + ".jpg") for seq in range(10000000000))
 
 while True:
-    try:
-        for image_num, image_name in image_name_generator:
-            print(image_name)
-            # waits until next image in the sequence is found
-            image = get_next_image(image_name)
-            drowsiness_level = analyze_picture(image)
-            if (drowsiness_level == None):
-                continue
-            analyzer_state[drowsiness_level] += 1
+    for image_num, image_name in image_name_generator:
+        print(image_name)
+        # waits until next image in the sequence is found
+        image = get_next_image(image_name)
+        drowsiness_level = analyze_picture(image)
+        analyzer_state[drowsiness_level] += 1
 
-            # we have analysed enough images
-            if (image_num != 0 and image_num % NUM_OF_IMAGES_IN_ONE_ANALYSIS == 0):
-                drowsiness_level = get_final_drowsiness_level(analyzer_state)
-                with open('./images/result.txt', 'w') as f:
-                    print("drowsiness level:", drowsiness_level)
-                    f.write(str(drowsiness_level))
-                analyzer_state = fresh_analyzer_state()
+        # we have analysed enough images
+        if (image_num != 0 and image_num % NUM_OF_IMAGES_IN_ONE_ANALYSIS == 0):
+            drowsiness_level = get_final_drowsiness_level(analyzer_state)
+            with open('./images/result.txt', 'w') as f:
+                print("drowsiness level:", drowsiness_level)
+                f.write(str(drowsiness_level))
+            analyzer_state = fresh_analyzer_state()
 
-            os.remove(image_name)
-    except Exception as err:
-        with open('./images/result.txt', 'w') as f:
-                print("ERROR:", err)
-                f.write("10")
+        os.remove(image_name)
