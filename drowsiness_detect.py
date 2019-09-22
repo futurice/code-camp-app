@@ -84,8 +84,7 @@ def get_next_image(image_name):
 def get_final_drowsiness_level(drowsiness_counts):
     l = lambda key: drowsiness_counts[key] >= EYE_ASPECT_RATIO_REQUIRED_FRAMES
     filtered = list(filter(l, drowsiness_counts.keys()))
-    print(filtered)
-    return drowsiness_to_number(filtered[0])
+    return drowsiness_to_number(filtered[0]) if len(filtered) > 0 else 0
 
 def drowsiness_to_number(drowsiness):
     return {
